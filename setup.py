@@ -7,5 +7,6 @@ setup(
     author = 'Semjef',
     author_email = 'semjef02@gmail.com',
     description = 'Samsung AC',
-    packages = find_packages(),
+    packages=['samsungac'],
+    install_requires=['requests>=1.0.0']
 )
