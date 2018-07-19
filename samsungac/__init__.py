@@ -33,7 +33,7 @@ class Entity:
 
     def get(self):
         url = URL_GET.format(self.host)
-        resp = requests.get(url, headers=self.headers, verify=True,
+        resp = requests.get(url, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp.json()
 
@@ -45,14 +45,14 @@ class Entity:
         # {"Operation" : {\"power"\ : \"On"\}}
         data = {"Operation": {"power": onoff}}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+        resp = requests.put(url, data=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp.json()
 
     def set_mode(self, mode):
         data = {"modes": [mode]}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+        resp = requests.put(url, data=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp.json()
 
@@ -60,6 +60,6 @@ class Entity:
         # {"desired": '26'}
         data = {"desired": temp}
         url = URL_SET_TEMP.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+        resp = requests.put(url, data=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp.json()
