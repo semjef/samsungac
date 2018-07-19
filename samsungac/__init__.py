@@ -1,7 +1,7 @@
 '''
 Created on Jul 11, 2018
 
-@author: ilya
+@author: semjef
 '''
 
 import requests
@@ -17,9 +17,11 @@ MODES_LIST = {
     },
     'POWER': ["On", "Off"]
 }
+# Comode_Off, Autoclean_Off, Spi_Off
 
 URL_GET = "https://{}/devices/0"
-URL_GET = "https://{}/devices/0"
+URL_SET_MODE = "https://{}/devices/0/mode"
+URL_SET_TEMP = "https://{}/devices/0/temperatures/0"
 
 
 class Entity:
@@ -31,9 +33,33 @@ class Entity:
 
     def get(self):
         url = URL_GET.format(self.host)
-        resp = requests.get(url, headers=self.headers, verify=False, cert=self.cert)
+        resp = requests.get(url, headers=self.headers, verify=True,
+                            cert=self.cert)
         return resp.json()
 
-    def set(self, data):
-        
-        return True
+    def parse_ortions(self, options):
+        data = options
+        return data
+
+    def power(self, onoff):
+        # {"Operation" : {\"power"\ : \"On"\}}
+        data = {"Operation": {"power": onoff}}
+        url = URL_SET_MODE.format(self.host)
+        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+                            cert=self.cert)
+        return resp.json()
+
+    def set_mode(self, mode):
+        data = {"modes": [mode]}
+        url = URL_SET_MODE.format(self.host)
+        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+                            cert=self.cert)
+        return resp.json()
+
+    def set_temp(self, temp):
+        # {"desired": '26'}
+        data = {"desired": temp}
+        url = URL_SET_TEMP.format(self.host)
+        resp = requests.put(url, data=data, headers=self.headers, verify=True,
+                            cert=self.cert)
+        return resp.json()
