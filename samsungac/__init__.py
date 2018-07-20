@@ -5,6 +5,7 @@ Created on Jul 11, 2018
 '''
 
 import requests
+import json
 
 MODES_LIST = {
     'OPMODE': ["Auto", "Cool", "Dry", "Wind", "Heat"],
@@ -19,7 +20,7 @@ MODES_LIST = {
 }
 # Comode_Off, Autoclean_Off, Spi_Off
 
-URL_GET = "https://{}/devices/0"
+URL_DEV = "https://{}/devices/0"
 URL_SET_MODE = "https://{}/devices/0/mode"
 URL_SET_TEMP = "https://{}/devices/0/temperatures/0"
 
@@ -32,7 +33,7 @@ class Entity:
                         "Content-Type": "application/json"}
 
     def get(self):
-        url = URL_GET.format(self.host)
+        url = URL_DEV.format(self.host)
         resp = requests.get(url, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp.json()
@@ -44,17 +45,17 @@ class Entity:
     def power(self, onoff):
         # {"Operation" : {\"power"\ : \"On"\}}
         data = {"Operation": {"power": onoff}}
-        url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=False,
+        url = URL_DEV.format(self.host)
+        resp = requests.put(url, data=json.dumps(data), headers=self.headers, verify=False,
                             cert=self.cert)
-        return resp.json()
+        return resp
 
     def set_mode(self, mode):
         data = {"modes": [mode]}
         url = URL_SET_MODE.format(self.host)
         resp = requests.put(url, data=data, headers=self.headers, verify=False,
                             cert=self.cert)
-        return resp.json()
+        return resp
 
     def set_temp(self, temp):
         # {"desired": '26'}
@@ -62,4 +63,4 @@ class Entity:
         url = URL_SET_TEMP.format(self.host)
         resp = requests.put(url, data=data, headers=self.headers, verify=False,
                             cert=self.cert)
-        return resp.json()
+        return resp
