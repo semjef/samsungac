@@ -1,12 +1,12 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
-    name = 'samsungac',
-    version = '0.1',
-    url = 'https://github.com/semjef/samsungac/new/master',
-    author = 'Semjef',
-    author_email = 'semjef02@gmail.com',
-    description = 'Samsung AC',
+    name='samsungac',
+    version='0.6',
+    url='https://github.com/semjef/samsungac/new/master',
+    author='Semjef',
+    author_email='semjef02@gmail.com',
+    description='Samsung AC',
     packages=['samsungac'],
-    install_requires=['requests>=1.0.0']
+    install_requires=['requests>=2.0']
 )
