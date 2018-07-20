@@ -5,7 +5,6 @@ Created on Jul 11, 2018
 '''
 
 import requests
-import json
 
 MODES_LIST = {
     'OPMODE': ["Auto", "Cool", "Dry", "Wind", "Heat"],
@@ -46,21 +45,21 @@ class Entity:
         # {"Operation" : {\"power"\ : \"On"\}}
         data = {"Operation": {"power": onoff}}
         url = URL_DEV.format(self.host)
-        resp = requests.put(url, data=json.dumps(data), headers=self.headers, verify=False,
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
 
     def set_mode(self, mode):
         data = {"modes": [mode]}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, data=json.dumps(data), headers=self.headers, verify=False,
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
 
     def set_temp(self, temp):
         # {"desired": '26'}
-        data = {"desired": temp}
+        data = {"desired": int(temp)}
         url = URL_SET_TEMP.format(self.host)
-        resp = requests.put(url, data=json.dumps(data), headers=self.headers, verify=False,
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
