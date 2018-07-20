@@ -53,14 +53,14 @@ class Entity:
     def set_mode(self, mode):
         data = {"modes": [mode]}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=False,
+        resp = requests.put(url, data=son.dumps(data), headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
 
     def set_temp(self, temp):
         # {"desired": '26'}
-        data = {"desired": temp}
+        data = {"desired": str(temp)}
         url = URL_SET_TEMP.format(self.host)
-        resp = requests.put(url, data=data, headers=self.headers, verify=False,
+        resp = requests.put(url, data=son.dumps(data), headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
