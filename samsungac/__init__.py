@@ -21,6 +21,7 @@ MODES_LIST = {
 
 URL_DEV = "https://{}/devices/0"
 URL_SET_MODE = "https://{}/devices/0/mode"
+URL_SET_WIND = "https://{}/devices/0/wind"
 URL_SET_TEMP = "https://{}/devices/0/temperatures/0"
 
 
@@ -60,6 +61,27 @@ class Entity:
         # {"desired": '26'}
         data = {"desired": int(temp)}
         url = URL_SET_TEMP.format(self.host)
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                            cert=self.cert)
+        return resp
+
+    def set_direction(self, direction):
+        data = {"direction": direction}
+        url = URL_SET_WIND.format(self.host)
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                            cert=self.cert)
+        return resp
+
+    def set_speed(self, speed):
+        data = {"speedLevel": speed}
+        url = URL_SET_WIND.format(self.host)
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                            cert=self.cert)
+        return resp
+
+    def wind(self, onoff):
+        data = {"options": ['Comode_Nano' if onoff else 'Comode_Off']}
+        url = URL_SET_MODE.format(self.host)
         resp = requests.put(url, json=data, headers=self.headers, verify=False,
                             cert=self.cert)
         return resp
