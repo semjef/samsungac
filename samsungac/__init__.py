@@ -1,5 +1,6 @@
 '''
-Created on Jul 11, 2018
+Support for samsung Air Conditioner.
+Tested on AR09MSPXBWKNER.
 
 @author: semjef
 '''
@@ -81,6 +82,13 @@ class Entity:
 
     def wind(self, onoff):
         data = {"options": ['Comode_Nano' if onoff else 'Comode_Off']}
+        url = URL_SET_MODE.format(self.host)
+        resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                            cert=self.cert)
+        return resp
+
+    def spi(self, onoff):
+        data = {"options": ['Spi_On' if onoff else 'Spi_Off']}
         url = URL_SET_MODE.format(self.host)
         resp = requests.put(url, json=data, headers=self.headers, verify=False,
                             cert=self.cert)
