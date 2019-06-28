@@ -5,7 +5,8 @@ Tested on AR09MSPXBWKNER.
 @author: semjef
 '''
 
-import requests
+import requests, warnings
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 MODES_LIST = {
     'OPMODE': ["Auto", "Cool", "Dry", "Wind", "Heat"],
@@ -35,8 +36,10 @@ class Entity:
 
     def get(self):
         url = URL_DEV.format(self.host)
-        resp = requests.get(url, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.get(url, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp.json()
 
     def parse_ortions(self, options):
@@ -47,49 +50,63 @@ class Entity:
         # {"Operation" : {\"power"\ : \"On"\}}
         data = {"Operation": {"power": onoff}}
         url = URL_DEV.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def set_mode(self, mode):
         data = {"modes": [mode]}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def set_temp(self, temp):
         # {"desired": '26'}
         data = {"desired": int(temp)}
         url = URL_SET_TEMP.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def set_direction(self, direction):
         data = {"direction": direction}
         url = URL_SET_WIND.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def set_speed(self, speed):
         data = {"speedLevel": speed}
         url = URL_SET_WIND.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def wind(self, onoff):
         data = {"options": ['Comode_Nano' if onoff else 'Comode_Off']}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
 
     def spi(self, onoff):
         data = {"options": ['Spi_On' if onoff else 'Spi_Off']}
         url = URL_SET_MODE.format(self.host)
-        resp = requests.put(url, json=data, headers=self.headers, verify=False,
-                            cert=self.cert)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            resp = requests.put(url, json=data, headers=self.headers, verify=False,
+                                cert=self.cert)
         return resp
